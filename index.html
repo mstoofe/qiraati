@@ -260,6 +260,46 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
 @media (max-width:520px){.wordopts{grid-template-columns:1fr}}
 .wordopt{background:#fff;border:4px solid var(--line);border-radius:22px;padding:6px 10px 12px;font-family:var(--read);font-weight:700;font-size:clamp(1.8rem,1.4rem + 2vw,3rem);box-shadow:0 5px 0 var(--line)}
 
+.scenebox.hero-left .hero-on{right:auto;left:3%}
+/* school bag scene */
+.schoolsc .bitem{opacity:0;transition:opacity .3s}
+.schoolsc .bitem.on{opacity:1}
+.schoolsc .bell{transform-box:fill-box;transform-origin:50% 0}
+.schoolsc svg.ring .bell{animation:ring .18s ease-in-out 12 alternate}
+.schoolsc .door{transform-box:fill-box;transform-origin:0 50%;transition:transform 1s .8s}
+.schoolsc svg.happy .door{transform:scaleX(.12)}
+.schoolsc svg.happy .spark{opacity:1}
+@keyframes ring{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
+.hero-pic{padding:4px}
+.hero-pic>svg,.duo>svg{height:100%;width:auto}
+.duo{display:flex;height:100%;justify-content:center;gap:2px}
+/* poem */
+.poem{background:#fff;border-radius:24px;padding:10px 14px;box-shadow:0 5px 0 var(--line);width:min(900px,100%);display:flex;flex-direction:column;gap:4px}
+.verse{display:grid;grid-template-columns:1fr 1fr;gap:12px;font-family:var(--read);font-weight:700;font-size:clamp(1.1rem,.85rem + 1.5vw,2.1rem);line-height:2;padding:2px 10px;border-radius:14px;text-align:center;transition:opacity .3s,background .3s}
+@media (max-width:520px){.verse{grid-template-columns:1fr;gap:0}}
+.verse.now{background:#fff6cc}
+.verse.later{opacity:.35}
+.verse.done{color:var(--leaf)}
+.verse .slot-in{min-width:3.4em;font-size:.95em}
+/* classroom */
+.classroom{width:min(820px,100%,calc((100vh - 280px) * 1.6));border-radius:22px;overflow:hidden;box-shadow:0 5px 0 var(--line);flex:none}
+.classroom svg{display:block;width:100%;height:auto}
+.classroom [data-k]{cursor:pointer}
+.classroom [data-k].found{filter:drop-shadow(0 0 5px #2f9e62) drop-shadow(0 0 3px #2f9e62)}
+.classroom [data-k].hint{filter:drop-shadow(0 0 7px #ffb800) drop-shadow(0 0 3px #ffb800)}
+.classroom [data-k].nope{animation:nope .35s}
+@keyframes nope{50%{opacity:.35}}
+/* paragraph */
+.paraslots,.strips{display:flex;flex-direction:column;gap:7px;width:min(900px,100%)}
+.pslot{display:flex;gap:10px;align-items:center;min-height:46px;border:3px dashed #9fb3c4;border-radius:14px;padding:3px 10px;background:#ffffffb0;font-family:var(--read);font-weight:700;font-size:clamp(1rem,.85rem + .8vw,1.5rem);line-height:1.8}
+.pslot .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--sun);display:grid;place-items:center;font-family:var(--display);font-weight:800}
+.pslot.cur{border-color:var(--pink)}
+.pslot.over{background:#e4f6ec;border-color:var(--leaf)}
+.pslot.ok{border-style:solid}
+.strip{display:flex;gap:10px;align-items:center;background:#fff;border:3px solid var(--line);border-radius:16px;padding:5px 12px;font-family:var(--read);font-weight:700;font-size:clamp(1rem,.85rem + .8vw,1.5rem);line-height:1.8;box-shadow:0 4px 0 var(--line);touch-action:none;cursor:grab;text-align:start}
+.strip .speak{width:36px;height:36px}
+.strip.gone{display:none}
+
 /* overlays */
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:14px;font-size:1rem;max-width:min(92vw,520px);text-align:center;z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
 #toast.show{opacity:1}
@@ -487,6 +527,7 @@ function sfx(kind){
     else if(kind==='pop'){const o=note(500,0,.15,'sine',.18);o.frequency.exponentialRampToValueAtTime(1100,t+.12)}
     else if(kind==='star'){[523,659,784,1046].forEach((f,i)=>note(f,i*.09,.3))}
     else if(kind==='win'){[523,659,784,659,784,1046].forEach((f,i)=>note(f,i*.12,.35,'triangle',.14))}
+    else if(kind==='bell'){for(let i=0;i<10;i++){note(1568,i*.085,.12,'triangle',.09);note(2093,i*.085+.04,.1,'sine',.06)}}
     else if(kind==='whoosh'){const o=note(300,0,.35,'sawtooth',.04);o.frequency.exponentialRampToValueAtTime(900,t+.3)}
     else if(kind==='splash'){
       const len=ac.sampleRate*.45|0,b=ac.createBuffer(1,len,ac.sampleRate),d=b.getChannelData(0);
@@ -792,6 +833,191 @@ const LI=[
  '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9Z" fill="#e2367a"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="#e2367a" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
  '<svg viewBox="0 0 24 24"><rect x="1" y="5" width="22" height="14" rx="4" fill="#8e5bd6"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="Tahoma">الـ</text></svg>'
 ];
+/* ================= school bag scene (مدرستي) ================= */
+const BAG_ITEMS=[
+ {n:'كِتَابٌ',svg:'<rect x="107" y="80" width="17" height="40" rx="2" fill="#e2367a"/><rect x="109" y="84" width="13" height="3" fill="#fff" opacity=".7"/>'},
+ {n:'دَفْتَرٌ',svg:'<rect x="122" y="85" width="15" height="35" rx="2" fill="#2f9e62"/><path d="M125 92 H134 M125 97 H134 M125 102 H134" stroke="#fff" stroke-width="1.4" opacity=".8"/>'},
+ {n:'قَلَمٌ',svg:'<rect x="137" y="70" width="6" height="50" fill="#f7b731"/><path d="M137 70 L140 61 L143 70Z" fill="#f3d9a4"/><path d="M139 64 L140 61 L141 64Z" fill="#1d2b45"/><rect x="137" y="70" width="6" height="3" fill="#e2367a"/>'},
+ {n:'مِسْطَرَةٌ',svg:'<g transform="rotate(8 148 118)"><rect x="145" y="74" width="7" height="46" fill="#ffd166" stroke="#c98f12" stroke-width="1"/><path d="M145 80 H148 M145 86 H149 M145 92 H148 M145 98 H149 M145 104 H148" stroke="#8a6a1c" stroke-width="1"/></g>'},
+ {n:'أَلْوَانٌ',svg:'<rect x="152" y="90" width="13" height="30" rx="2" fill="#3f9fde"/><path d="M153 90 L154.5 84 L156 90Z M156 90 L157.5 83 L159 90Z M159 90 L160.5 84 L162 90Z M162 90 L163.5 85 L165 90Z" fill="#e2367a"/><path d="M156 90 L157.5 83 L159 90Z" fill="#2f9e62"/><path d="M162 90 L163.5 85 L165 90Z" fill="#f7b731"/>'},
+ {n:'مِقْلَمَةٌ',svg:'<rect x="112" y="98" width="38" height="14" rx="7" fill="#8e5bd6"/><path d="M118 105 H144" stroke="#fff" stroke-width="1.6" stroke-dasharray="3 2"/>'},
+ {n:'قِنِّينَةُ مَاءٍ',svg:'<rect x="167" y="112" width="12" height="30" rx="4" fill="#8fd0f4" stroke="#3f9fde" stroke-width="1.5"/><rect x="169" y="106" width="8" height="7" rx="1.5" fill="#3f9fde"/>'},
+ {n:'عُلْبَةُ الطَّعَامِ',svg:'<rect x="119" y="138" width="30" height="12" rx="3" fill="#f08a24"/><rect x="131" y="135" width="6" height="4" rx="1" fill="#a85a12"/>'}
+];
+function makeSchool(n,still){
+  const id='b'+(++sceneN);
+  const w=el('div','scene schoolsc'+(still?' still':''));
+  w.innerHTML=`<svg viewBox="0 0 320 200" role="img" aria-label="حقيبة المدرسة">
+  <defs><linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9dcf3"/><stop offset="1" stop-color="#eef9fd"/></linearGradient></defs>
+  <rect width="320" height="200" fill="url(#${id}g)"/>
+  <g fill="#fff" opacity=".95"><ellipse cx="70" cy="26" rx="26" ry="8"/><ellipse cx="88" cy="20" rx="15" ry="8"/><ellipse cx="170" cy="34" rx="24" ry="7"/></g>
+  <rect y="158" width="320" height="42" fill="#c3e7cf"/>
+  <path d="M160 200 Q200 178 258 162 H270 Q228 182 214 200Z" fill="#f3d9a4"/>
+  <g>
+   <path d="M258 40 V16" stroke="#5a6782" stroke-width="2"/><rect x="258" y="16" width="16" height="4" fill="#ce1126"/><rect x="258" y="20" width="16" height="4" fill="#fff"/><rect x="258" y="24" width="16" height="4" fill="#1d1d1d"/>
+   <path d="M198 72 L258 40 L318 72Z" fill="#e2367a"/>
+   <rect x="204" y="72" width="108" height="90" fill="#f6d77a"/>
+   <g fill="#8fd0f4" stroke="#fff" stroke-width="2"><rect x="212" y="82" width="20" height="18"/><rect x="284" y="82" width="20" height="18"/><rect x="212" y="114" width="20" height="18"/><rect x="284" y="114" width="20" height="18"/></g>
+   <text x="258" y="94" text-anchor="middle" font-size="10" font-weight="700" fill="#8a6a1c" font-family="Noto Naskh Arabic,serif">مَدْرَسَتِي</text>
+   <rect x="244" y="116" width="28" height="46" fill="#3a2a1a"/>
+   <g class="door"><rect x="244" y="116" width="28" height="46" fill="#a0522d" stroke="#6b3a1a" stroke-width="1.5"/><circle cx="267" cy="140" r="2" fill="#ffd166"/></g>
+   <g class="bell"><path d="M300 58 V64" stroke="#5a6782" stroke-width="1.5"/><path d="M292 76 Q292 64 300 64 Q308 64 308 76 L310 79 H290Z" fill="#f7b731" stroke="#c98f12" stroke-width="1.2"/><circle cx="300" cy="81" r="2.2" fill="#c98f12"/></g>
+  </g>
+  <g class="items">${BAG_ITEMS.map((it,i)=>`<g class="bitem" data-i="${i}">${it.svg}</g>`).join('')}</g>
+  <path d="M112 116 C110 96 156 96 154 116" fill="none" stroke="#1d5f8a" stroke-width="5"/>
+  <rect x="104" y="110" width="58" height="62" rx="15" fill="#3f9fde" stroke="#1d5f8a" stroke-width="2"/>
+  <ellipse cx="133" cy="112" rx="27" ry="6" fill="#1d4f78"/>
+  <g class="pocket"><rect x="112" y="140" width="42" height="24" rx="8" fill="#2f7fc0" stroke="#1d5f8a" stroke-width="1.5"/><path d="M114 147 H152" stroke="#ffd166" stroke-width="2"/></g>
+  <rect x="160" y="128" width="9" height="30" rx="4" fill="#2f7fc0"/>
+  <g class="spark" fill="#f7b731">${[[96,80],[176,70],[60,120],[190,140]].map(([x,y])=>`<path transform="translate(${x} ${y})" d="M0 -8 L2.2 -2.2 L8 0 L2.2 2.2 L0 8 L-2.2 2.2 L-8 0 L-2.2 -2.2Z"/>`).join('')}</g>
+  </svg>`;
+  const svg=w.firstElementChild;w.svg=svg;
+  w.set=k=>{svg.querySelectorAll('.bitem').forEach((g,i)=>g.classList.toggle('on',i<k));svg.classList.toggle('happy',k>=8)};
+  w.target=()=>svg.querySelector('ellipse');
+  w.added=k=>{sfx('pop');const g=svg.querySelectorAll('.bitem')[k-1];if(g&&!P.still)g.animate([{transform:'translateY(-40px)',opacity:0},{transform:'translateY(5px)',opacity:1,offset:.7},{transform:'translateY(0)'}],{duration:450,easing:'ease-out'})};
+  w.ring=()=>{svg.classList.remove('ring');void svg.getBoundingClientRect();svg.classList.add('ring')};
+  w.set(n||0);return w;
+}
+const pencilIcon='<svg viewBox="0 0 54 46" aria-hidden="true"><g transform="rotate(-35 27 23)"><rect x="8" y="17" width="34" height="12" fill="#f7b731" stroke="#c98f12" stroke-width="1.5"/><rect x="8" y="17" width="6" height="12" fill="#e2367a"/><path d="M42 17 L52 23 L42 29Z" fill="#f3d9a4"/><path d="M48.5 21 L52 23 L48.5 25Z" fill="#1d2b45"/></g></svg>';
+
+/* classroom for «أشياء صفّي» (ص ٢٢) */
+const CLASS_THINGS=[
+ ['السَّبُّورَةُ','board'],['الْمُعَلِّمَةُ','teacher'],['السَّاعَةُ','clock'],['النَّافِذَةُ','window'],['الرَّحْلَةُ','desk'],['الْحَقِيبَةُ','bag'],['الْكِتَابُ','book']
+].map(([w,k],i)=>({w,k,q:reg('cls-q'+(i+1),'أَيْنَ '+w+'؟'),id:reg('cls-w'+(i+1),w)}));
+function classroomSvg(){
+  return `<svg viewBox="0 0 320 200" role="img" aria-label="الصف">
+  <rect width="320" height="200" fill="#fdf3dc"/><rect y="150" width="320" height="50" fill="#e6c98d"/><path d="M0 150 H320" stroke="#c9a96b" stroke-width="2"/>
+  <g data-k="clock"><rect x="18" y="14" width="44" height="44" fill="transparent"/><circle cx="40" cy="36" r="17" fill="#fff" stroke="#1d2b45" stroke-width="2.5"/><path d="M40 36 V25 M40 36 L48 40" stroke="#1d2b45" stroke-width="2.2" stroke-linecap="round"/><circle cx="40" cy="36" r="1.8" fill="#e2367a"/></g>
+  <g data-k="board"><rect x="78" y="16" width="156" height="78" rx="4" fill="#8a5a2b"/><rect x="84" y="22" width="144" height="64" fill="#2f6e4f"/><text x="156" y="48" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Noto Naskh Arabic,serif">الدَّرْسُ الْأَوَّلُ</text><path d="M118 62 H196" stroke="#fff" stroke-width="1.5" opacity=".6"/><rect x="84" y="88" width="144" height="4" fill="#c9a96b"/></g>
+  <g data-k="window"><rect x="262" y="18" width="48" height="74" fill="#bfe6f7" stroke="#fff" stroke-width="4"/><path d="M286 18 V92 M262 55 H310" stroke="#fff" stroke-width="3"/><rect x="300" y="14" width="14" height="82" rx="3" fill="#e2367a" opacity=".85"/></g>
+  <g data-k="teacher"><rect x="226" y="68" width="34" height="96" fill="transparent"/><path d="M232 100 H254 L260 160 H226Z" fill="#8e5bd6"/><path d="M236 104 L224 86" stroke="#8e5bd6" stroke-width="6" stroke-linecap="round"/><circle cx="222" cy="84" r="3.2" fill="#eab68a"/><circle cx="243" cy="86" r="9" fill="#eab68a"/><path d="M232 90 Q230 72 243 72 Q256 72 254 90 Q256 102 250 104 H236 Q230 102 232 90Z" fill="#c9b6ec"/><circle cx="243" cy="87" r="7.5" fill="#eab68a"/><circle cx="240" cy="86" r="1.1" fill="#1d2b45"/><circle cx="246" cy="86" r="1.1" fill="#1d2b45"/><path d="M240 90 Q243 92 246 90" stroke="#1d2b45" stroke-width="1" fill="none"/><rect x="230" y="158" width="9" height="5" rx="2" fill="#1d2b45"/><rect x="247" y="158" width="9" height="5" rx="2" fill="#1d2b45"/></g>
+  <g data-k="desk"><rect x="20" y="124" width="96" height="10" rx="2" fill="#a0522d"/><rect x="26" y="134" width="6" height="34" fill="#7a3e1f"/><rect x="104" y="134" width="6" height="34" fill="#7a3e1f"/><rect x="24" y="150" width="88" height="7" rx="2" fill="#a0522d"/><rect x="150" y="128" width="70" height="10" rx="2" fill="#a0522d"/><rect x="156" y="138" width="6" height="32" fill="#7a3e1f"/><rect x="208" y="138" width="6" height="32" fill="#7a3e1f"/></g>
+  <g data-k="book"><rect x="40" y="108" width="40" height="22" fill="transparent"/><path d="M60 122 C54 117 46 117 42 119 V125 C46 123 54 123 60 128Z" fill="#fff" stroke="#3f9fde" stroke-width="1.5"/><path d="M60 122 C66 117 74 117 78 119 V125 C74 123 66 123 60 128Z" fill="#fff" stroke="#3f9fde" stroke-width="1.5"/></g>
+  <g data-k="bag"><rect x="120" y="140" width="28" height="34" fill="transparent"/><path d="M127 150 C127 140 141 140 141 150" fill="none" stroke="#a51f55" stroke-width="3"/><rect x="122" y="148" width="24" height="24" rx="6" fill="#e2367a"/><rect x="126" y="158" width="16" height="9" rx="3" fill="#a51f55"/></g>
+  </svg>`;
+}
+
+/* ================= lesson content: مدرستي (قراءتي ص ١٧–٢٤) ================= */
+const S_STORY=[
+ 'قَالَ حَسَنٌ لِأَبِيهِ: أَنَا صِرْتُ كَبِيرًا يَا أَبِي. أُرِيدُ الذَّهَابَ إِلَى الْمَدْرَسَةِ.',
+ 'أَقْرَأُ دُرُوسِي وَأَكْتُبُهَا فِي الصَّفِّ، وَأَلْعَبُ مَعَ أَصْدِقَائِي. أَنَا أُحِبُّ مَدْرَسَتِي.',
+ 'وَقَالَتْ حَسْنَاءُ لِأُمِّهَا: أَنَا صِرْتُ كَبِيرَةً يَا أُمِّي. أُرِيدُ الذَّهَابَ إِلَى الْمَدْرَسَةِ، وَأَلْعَبُ مَعَ صَدِيقَاتِي.',
+ 'قَالَ الْأَبُ، وَقَالَتِ الْأُمُّ: غَدًا تَذْهَبَانِ إِلَى الْمَدْرَسَةِ، غَدًا تَلْعَبَانِ مَعَ الْأَصْدِقَاءِ، وَتَفْرَحَانِ بِالْمَدْرَسَةِ.',
+ 'هَيَّا نُجَهِّزُ حَقِيبَةَ الْمَدْرَسَةِ! الْعَبْ وَاقْرَأْ، وَاجْمَعْ أَدَوَاتِكَ.'
+].map((t,i)=>({id:reg('school-story-'+(i+1),t),t}));
+reg('pack','اسْحَبِ الْأَدَاةَ إِلَى الْحَقِيبَةِ');
+reg('school-round-win','أَحْسَنْتَ! خُذِ الْأَدَوَاتِ إِلَى الْحَقِيبَةِ');
+reg('school-go','تَرِنْ تَرِنْ! رَنَّ الْجَرَسُ، وَالْحَقِيبَةُ جَاهِزَةٌ. هَيَّا إِلَى الْمَدْرَسَةِ!');
+reg('school-win','رَائِعٌ! جَهَّزْتَ حَقِيبَةَ الْمَدْرَسَةِ، وَصَارَتْ صَدِيقَتَكَ');
+
+// poems: each verse = two halves; one word of the verse goes missing
+const POEM1=[
+ ['أَبْدَأُ عَمَلِي بِاسْمِ اللَّهْ','أَقْرَأُ أَكْتُبُ بِاسْمِ اللَّهْ','أَكْتُبُ',['أَرْكُضُ','أَشْرَبُ']],
+ ['أَرْكُضُ أَسْبَحُ بِاسْمِ اللَّهْ','آكُلُ أَشْرَبُ بِاسْمِ اللَّهْ','أَسْبَحُ',['أَقْرَأُ','يَوْمِي']],
+ ['أَنَا لَا أَعْبُدُ إِلَّا اللَّهْ','هُوَ يَحْمِينِي جَلَّ عُلَاهْ','يَحْمِينِي',['عَمَلِي','آكُلُ']],
+ ['أَبْدَأُ يَوْمِي بِاسْمِ اللَّهْ','لَا إِلَهَ إِلَّا اللَّهْ','يَوْمِي',['أَكْتُبُ','أَسْبَحُ']]
+].map(([a,b,gap,others],i)=>({a,b,gap,opts:[gap,...others],id:reg('poem1-'+(i+1),a+'، '+b),gid:reg('poem1-w'+(i+1),gap)}));
+const POEM2=[
+ ['أَهْلًا بِهَا مَدْرَسَتِي','أَهْلًا بِكُلِّ إِخْوَتِي','إِخْوَتِي',['عِيدْ','الْوَطَنَا']],
+ ['فِي عَامِنَا الْجَدِيدْ','كَأَنَّنَا فِي عِيدْ','عِيدْ',['نَكْبَرُ','مَدْرَسَتِي']],
+ ['وَكُلَّ عَامٍ نَكْبَرُ','وَإِنْ نَجَحْنَا نَفْخَرُ','نَفْخَرُ',['يُسْعِدُنَا','عَلَّمَنَا']],
+ ['اللَّهُ قَدْ عَلَّمَنَا','لِلْخَيْرِ قَدْ أَرْشَدَنَا','عَلَّمَنَا',['نَفْخَرُ','إِخْوَتِي']],
+ ['نَبْنِي وَنَحْمِي الْوَطَنَا','فَخَيْرُهُ يُسْعِدُنَا','الْوَطَنَا',['عِيدْ','نَكْبَرُ']]
+].map(([a,b,gap,others],i)=>({a,b,gap,opts:[gap,...others],id:reg('poem2-'+(i+1),a+'، '+b),gid:reg('poem2-w'+(i+1),gap)}));
+// أنتَ / أنتِ / أنتما (تدريب ٢ ص ٢١)
+const VERBS=[['تَذْهَبُ','تَذْهَبِينَ','تَذْهَبَانِ','إِلَى الْمَدْرَسَةِ'],['تَلْعَبُ','تَلْعَبِينَ','تَلْعَبَانِ','مَعَ الْأَصْدِقَاءِ'],['تَكْتُبُ','تَكْتُبِينَ','تَكْتُبَانِ','الدَّرْسَ'],['تَفْرَحُ','تَفْرَحِينَ','تَفْرَحَانِ','بِالْمَدْرَسَةِ']];
+const PERSONS=[['أَنْتَ يَا حَسَنُ ','boy'],['أَنْتِ يَا حَسْنَاءُ ','girl'],['أَنْتُمَا ','both']];
+const PRON=[];VERBS.forEach((v,a)=>PERSONS.forEach(([pre,who],p)=>{const word=pre+v[p]+' '+v[3]+'.';PRON.push({pre,post:' '+v[3]+'.',ok:v[p],opts:[v[0],v[1],v[2]],who,word,id:reg(`pron-${a+1}-${p+1}`,word)})}));
+// رتّب الفقرة (التعبير الكتابي ص ٢٣) — the book's numbering is the right order
+const PARA=['أَنَا تِلْمِيذٌ فِي الصَّفِّ الثَّانِي، أُخْتِي هَمْسَةُ تِلْمِيذَةٌ فِي الصَّفِّ الْأَوَّلِ.','نَذْهَبُ كُلَّ يَوْمٍ إِلَى الْمَدْرَسَةِ مَعًا.','أَنَا وَهَمْسَةُ نُحِبُّ مَدْرَسَتَنَا؛ لِأَنَّهَا تُعَلِّمُنَا وَتُرَبِّينَا.','فِيهَا نَرَى أَصْدِقَاءَنَا، وَمُعَلِّمَنَا وَمُعَلِّمَتَنَا.','نَحْنُ نُحَافِظُ عَلَى نَظَافَةِ مَدْرَسَتِنَا، وَسَلَامَةِ أَثَاثِهَا.']
+ .map((t,i)=>({t,i,id:reg('para-'+(i+1),t)}));
+
+const SI=[
+ '<svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12" stroke="#e2367a" stroke-width="2" fill="none"/><circle cx="6.5" cy="18" r="3" fill="#e2367a"/><circle cx="17.5" cy="16" r="3" fill="#e2367a"/></svg>',
+ '<svg viewBox="0 0 24 24"><circle cx="7" cy="8" r="3.5" fill="#3f9fde"/><circle cx="17" cy="8" r="3.5" fill="#e2367a"/><path d="M1 21c0-5 3-7 6-7s6 2 6 7Z" fill="#3f9fde"/><path d="M11 21c0-5 3-7 6-7s6 2 6 7Z" fill="#e2367a"/></svg>',
+ '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="13" rx="1.5" fill="#2f6e4f" stroke="#8a5a2b" stroke-width="1.5"/><path d="M6 21 L9 16 M18 21 L15 16" stroke="#8a5a2b" stroke-width="1.6"/><path d="M6 8 H14" stroke="#fff" stroke-width="1.4"/></svg>',
+ '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="4" rx="1.5" fill="#f7b731"/><rect x="2" y="10" width="20" height="4" rx="1.5" fill="#3f9fde"/><rect x="2" y="17" width="20" height="4" rx="1.5" fill="#2f9e62"/></svg>',
+ '<svg viewBox="0 0 24 24"><path d="M5 18 Q5 8 12 8 Q19 8 19 18 L21 21 H3Z" fill="#f7b731" stroke="#c98f12" stroke-width="1.2"/><circle cx="12" cy="21.5" r="1.8" fill="#c98f12"/><path d="M12 8 V4" stroke="#5a6782" stroke-width="1.6"/></svg>'
+];
+const S_ROUNDS=[
+ {name:'نَشِيدُ بِاسْمِ اللَّهِ',ins:reg('s1-ins','اسْتَمِعْ إِلَى النَّشِيدِ، وَأَكْمِلِ الْكَلِمَةَ النَّاقِصَةَ'),peb:2,run:c=>gPoem(c,POEM1)},
+ {name:'أَنْتَ، أَنْتِ، أَنْتُمَا',ins:reg('s2-ins','انْظُرْ إِلَى الصُّورَةِ، وَأَكْمِلِ الْجُمْلَةَ'),peb:2,run:c=>gSlot(c,pickPron(),{tile:'word'})},
+ {name:'أَشْيَاءُ صَفِّي',ins:reg('s3-ins','اسْمَعِ السُّؤَالَ، وَالْمَسِ الشَّيْءَ فِي الصَّفِّ'),peb:2,run:gFind},
+ {name:'رَتِّبِ الْفِقْرَةَ',ins:reg('s4-ins','رَتِّبِ الْجُمَلَ لِتَصْنَعَ فِقْرَةً عَنْ مَدْرَسَتِي'),peb:1,run:gStrips},
+ {name:'نَشِيدُ مَدْرَسَتِي',ins:reg('s5-ins','اسْتَمِعْ إِلَى النَّشِيدِ، وَأَكْمِلِ الْكَلِمَةَ النَّاقِصَةَ'),peb:1,run:c=>gPoem(c,POEM2)}
+];
+function pickPron(){ // six sentences: every person twice, verbs mixed
+  const by=[0,1,2].map(p=>shuffle(PRON.filter(x=>x.pre===PERSONS[p][0])).slice(0,2));
+  return shuffle(by.flat()).map(x=>({...x,picHtml:x.who==='both'?`<div class="duo">${heroSvg('boy',[])}${heroSvg('girl',[])}</div>`:heroSvg(x.who,[])}));
+}
+
+/* ---- school games ---- */
+function gPoem(c,poem){
+  let k=0;const T=tries();
+  c.inner.innerHTML='';
+  const box=el('div','poem');
+  poem.forEach((v,i)=>box.insertAdjacentHTML('beforeend',`<div class="verse" data-i="${i}"><span class="h">${v.a}</span><span class="h">${v.b}</span></div>`));
+  const tiles=el('div','tiles');
+  c.inner.append(box,tiles);
+  function verse(){
+    T.reset();c.progress(k/poem.length);tiles.innerHTML='';
+    const v=poem[k];const row=box.children[k];
+    box.querySelectorAll('.verse').forEach((r,i)=>{r.classList.toggle('now',i===k);r.classList.toggle('later',i>k)});
+    row.scrollIntoView({block:'nearest',behavior:P.still?'auto':'smooth'});
+    say(v.id,()=>{ // after hearing the verse, one word goes missing
+      if(!c.alive())return;
+      const hs=row.querySelectorAll('.h');const hi=v.a.includes(v.gap)?0:1;const h=hs[hi];
+      h.innerHTML=h.textContent.replace(v.gap,'<span class="slot-in" aria-label="فراغ"></span>');
+      const slot=h.querySelector('.slot-in');
+      shuffle(v.opts).forEach(t=>{const b=el('div','ltile word',t);b.setAttribute('role','button');b.dataset.t=t;tiles.append(b);
+        const tryIt=()=>{if(c.inner.dataset.lock)return false;
+          if(t===v.gap){c.inner.dataset.lock=1;c.good();slot.textContent=t;slot.classList.add('filled');b.classList.add('gone');
+            say(v.gid,()=>{if(!c.alive())return;delete c.inner.dataset.lock;h.textContent=(hi?v.b:v.a);row.classList.add('done');k++;k<poem.length?setTimeout(()=>c.alive()&&verse(),300):(box.querySelectorAll('.verse').forEach(r=>r.classList.remove('now','later')),c.win())});return true}
+          const r=tiles.querySelector(`.ltile[data-t="${CSS.escape(v.gap)}"]`);T.miss(b,r,v.gid);return false};
+        draggable(b,{targets:()=>[slot],onDrop:tryIt,onTap:tryIt})});
+    });
+  }
+  setTimeout(()=>c.alive()&&verse(),2600);
+}
+function gFind(c){
+  const asks=shuffle(CLASS_THINGS).slice(0,6);let k=0;const T=tries();
+  c.inner.innerHTML='';
+  const q=el('p','qtext');const room=el('div','classroom',classroomSvg());
+  c.inner.append(q,room);
+  const svg=room.firstElementChild;
+  function ask(){
+    T.reset();const a=asks[k];c.progress(k/asks.length);
+    q.innerHTML=`<button class="speak" aria-label="استمع">${I.speak}</button>${CLIPS.get(a.q)}`;
+    q.querySelector('.speak').onclick=()=>say(a.q);
+    svg.querySelectorAll('.hint').forEach(g=>g.classList.remove('hint'));
+    setTimeout(()=>c.alive()&&say(a.q),k?250:2600);
+  }
+  svg.querySelectorAll('[data-k]').forEach(g=>g.addEventListener('click',()=>{
+    if(c.inner.dataset.lock)return;const a=asks[k];
+    if(g.dataset.k===a.k){c.inner.dataset.lock=1;c.good();g.classList.add('found');svg.querySelectorAll('.hint').forEach(x=>x.classList.remove('hint'));
+      say(a.id,()=>{if(!c.alive())return;delete c.inner.dataset.lock;g.classList.remove('found');k++;k<asks.length?ask():c.win()})}
+    else{T.miss(null,svg.querySelector(`[data-k="${a.k}"]`),a.q);g.classList.remove('nope');void g.getBoundingClientRect();g.classList.add('nope')}
+  }));
+  ask();
+}
+function gStrips(c){
+  let filled=0;const T=tries();
+  c.inner.innerHTML='';
+  const list=el('div','paraslots',PARA.map((_,i)=>`<div class="pslot" data-i="${i}"><span class="n">${ar(i+1)}</span><span class="pt"></span></div>`).join(''));
+  const pool=el('div','strips');
+  c.inner.append(list,pool);
+  const cur=()=>[...list.children].find(s=>!s.dataset.full);
+  const mark=()=>[...list.children].forEach(s=>s.classList.toggle('cur',s===cur()));
+  shuffle(PARA).forEach(p=>{const s=el('div','strip',`<button class="speak" aria-label="استمع">${I.speak}</button><span>${p.t}</span>`);s.dataset.i=p.i;s.setAttribute('role','button');pool.append(s);
+    const sp=s.querySelector('.speak');sp.addEventListener('pointerdown',e=>e.stopPropagation());sp.onclick=e=>{e.stopPropagation();say(p.id)};
+    const place=slot=>{if(s.classList.contains('gone')||!slot||slot.dataset.full)return false;
+      if(+slot.dataset.i===p.i){c.good();slot.dataset.full=1;slot.querySelector('.pt').textContent=p.t;slot.classList.add('ok');s.classList.add('gone');filled++;c.progress(filled/PARA.length);T.reset();pool.querySelectorAll('.hint').forEach(x=>x.classList.remove('hint'));mark();
+        say(p.id,()=>{if(c.alive()&&filled===PARA.length)c.win()});return true}
+      const want=pool.querySelector(`.strip[data-i="${slot.dataset.i}"]`);T.miss(s,want,PARA[+slot.dataset.i].id);return false};
+    draggable(s,{targets:()=>[...list.children].filter(x=>!x.dataset.full),onDrop:place,onTap:()=>place(cur())})});
+  mark();
+}
+
 /* ================= missions ================= */
 const MISSIONS={
  crow:{id:'crow',icons:RI,title:'مُهِمَّةُ الْغُرَابِ الْعَطْشَانِ',rounds:ROUNDS,token:I.pebble,trayId:'throw',winId:'round-win',winBtn:'خُذِ الْحَصَى إِلَى الْغُرَابِ',backBtn:'عُدْ إِلَى الْغُرَابِ',missionWin:'mission-win',friend:'الْغُرَابُ الذَّكِيُّ',moral:STORY[7].t,
@@ -803,15 +1029,24 @@ const MISSIONS={
   scene:()=>makeTrain(0),
   story:L_STORY.map(x=>({id:x.id,t:x.t,show:sc=>sc.set(x.n)})),
   finale:async(sc,ok)=>{sc.set(8);sfx('whoosh');sc.depart();await sayP('letters-go');if(!ok())return false;return true},
-  card:()=>makeTrain(8,true)}
+  card:()=>makeTrain(8,true)},
+ school:{id:'school',icons:SI,hero:'left',title:'حَقِيبَةُ الْمَدْرَسَةِ',rounds:S_ROUNDS,token:pencilIcon,trayId:'pack',winId:'school-round-win',winBtn:'خُذِ الْأَدَوَاتِ إِلَى الْحَقِيبَةِ',backBtn:'عُدْ إِلَى الْحَقِيبَةِ',missionWin:'school-win',friend:'الْحَقِيبَةُ الْمَدْرَسِيَّةُ',moral:'اللَّهُ قَدْ عَلَّمَنَا، لِلْخَيْرِ قَدْ أَرْشَدَنَا.',
+  scene:()=>makeSchool(0),
+  story:S_STORY.map(x=>({id:x.id,t:x.t,show:()=>{}})),
+  finale:async(sc,ok)=>{sc.set(8);sc.ring();sfx('bell');
+    const h=$('#sceneBox .hero-on');
+    if(h&&!P.still){const W=sc.getBoundingClientRect().width;h.animate([{transform:'translateX(0)',opacity:1},{transform:`translateX(${W*.5}px) scale(.85)`,opacity:1,offset:.85},{transform:`translateX(${W*.56}px) scale(.7)`,opacity:0}],{duration:2800,delay:600,easing:'ease-in-out',fill:'forwards'})}
+    await sayP('school-go');if(!ok())return false;return true},
+  card:()=>makeSchool(8,true)}
 };
 reg('letters-moral',MISSIONS.letters.moral);
+reg('school-moral',MISSIONS.school.moral);
 const MS=id=>{const m=P.missions[id]||(P.missions[id]={cleared:[0,0,0,0,0],hand:0,thrown:0,done:0});return m};
 
 /* ================= world zones (كتاب قراءتي — الصف الثاني) ================= */
 const ZONES=[
  {name:'مُرَاجَعَةُ الْحُرُوفِ',art:'letters',live:'letters'},
- {name:'مَدْرَسَتِي',art:'school'},
+ {name:'مَدْرَسَتِي',art:'school',live:'school'},
  {name:'صَحْرَاءُ الْغُرَابِ',art:'desert',live:'crow'},
  {name:'الْعِرَاقُ وَطَنِي',art:'river'},
  {name:'أُسْرَتِي',art:'house'},
@@ -833,7 +1068,7 @@ function zoneArt(k){
   };
   return `<svg viewBox="0 0 100 100" aria-hidden="true">${A[k]}</svg>`;
 }
-const FRIENDS=[{m:'letters',n:'قِطَارُ الْحُرُوفِ'},{m:'crow',n:'الْغُرَابُ الذَّكِيُّ'},{n:'الْبُلْبُلُ'},{n:'الْأَرْنَبُ الْوَفِيُّ'},{n:'الْحَمَامَةُ'},{n:'الْبَبَّغَاءُ'},{n:'الْحِمَارُ الْعَاشِرُ'},{n:'الْكَلْبُ وَالْقِطَّةُ'},{n:'خَرُوفِي'}];
+const FRIENDS=[{m:'letters',n:'قِطَارُ الْحُرُوفِ'},{m:'school',n:'الْحَقِيبَةُ الْمَدْرَسِيَّةُ'},{m:'crow',n:'الْغُرَابُ الذَّكِيُّ'},{n:'الْبُلْبُلُ'},{n:'الْأَرْنَبُ الْوَفِيُّ'},{n:'الْحَمَامَةُ'},{n:'الْبَبَّغَاءُ'},{n:'الْحِمَارُ الْعَاشِرُ'},{n:'الْكَلْبُ وَالْقِطَّةُ'},{n:'خَرُوفِي'}];
 P.album=(P.album||[]).map(x=>x===0?'crow':x);
 
 /* ================= HUD ================= */
@@ -851,7 +1086,7 @@ function show(id){['sTitle','sHero','sWorld','sHub','sPlay'].forEach(s=>$('#'+s)
 function go(h){if(location.hash==='#'+h)route();else location.hash=h}
 function route(){
   hush();token++;closeOv();storyRunning=false;
-  const h=location.hash.slice(1);const m=h.match(/^(crow|letters)(?:-([1-5]))?$/);
+  const h=location.hash.slice(1);const m=h.match(/^(crow|letters|school)(?:-([1-5]))?$/);
   if((h==='world'||m)&&!P.hero){showHero(h);return}
   if(h==='hero')showHero('world');
   else if(h==='world')showWorld();
@@ -915,7 +1150,7 @@ function showHub(){
   show('sHub');refreshHud();const my=token;
   $('#hubTitle').textContent=MI.title;
   const box=$('#sceneBox');box.innerHTML='';
-  box.classList.toggle('hero-top',MI.hero==='top');
+  box.classList.toggle('hero-top',MI.hero==='top');box.classList.toggle('hero-left',MI.hero==='left');
   hubScene=MI.scene();hubScene.set(MS(MI.id).thrown);box.append(hubScene);
   box.append(el('div','hero-on',heroSvg(P.hero,P.wear)));
   renderPanel();
@@ -967,7 +1202,7 @@ async function finale(){
   openOv(`<h3>صَدِيقٌ جَدِيدٌ!</h3><div class="friend" id="fHere"><p>${mi.friend}</p></div>
     ${first?`<div class="rewards"><span class="reward">${I.star(1)}+${ar(20)}</span></div>`:''}
     <p class="center" style="margin:0;font-family:var(--read);font-weight:700;font-size:1.15rem;line-height:1.9">${mi.moral}</p>
-    <div class="swap"><button class="btn3d green" id="toWorld">عَالَمُ الْقِرَاءَةِ</button><button class="btn" data-close>ابْقَ هُنَا</button></div>`);
+    <div class="swap"><button class="btn3d green" id="toWorld">عَالَمُ الْقِرَاءَةِ</button><button class="btn" data-close>ابْقَ هُنَا</button></div>`,true);
   $('#fHere').prepend(mi.card());
   $('#toWorld').onclick=()=>go('world');
   say(mi.missionWin);renderPanel();
@@ -1032,7 +1267,7 @@ function roundWin(i,my){
   addStars(5);save();sfx('star');confetti();
   openOv(`<div class="win-hero">${heroSvg(P.hero,P.wear)}</div><h3>${CLIPS.get(praise())}</h3>
    <div class="rewards"><span class="reward">${I.star(1)}+${ar(5)}</span>${fresh?`<span class="reward">${MI.token}+${ar(MI.rounds[i].peb)}</span>`:''}</div>
-   <button class="btn3d green" id="toHub" style="align-self:center">${fresh?MI.winBtn:MI.backBtn}</button>`);
+   <button class="btn3d green" id="toHub" style="align-self:center">${fresh?MI.winBtn:MI.backBtn}</button>`,true);
   $('#toHub').onclick=()=>go(MI.id);
   setTimeout(()=>alive(my)&&say(fresh?MI.winId:praise()),400);
 }
@@ -1045,6 +1280,7 @@ function gSlot(c,items,o){
     c.inner.innerHTML='';
     const card=el('div','slotcard'+(o.tile==='word'?' wide':''));
     if(it.icon)card.insertAdjacentHTML('beforeend',`<div class="picbox">${pic(it.icon)}</div>`);
+    if(it.picHtml)card.insertAdjacentHTML('beforeend',`<div class="picbox hero-pic">${it.picHtml}</div>`);
     if(it.ex)card.insertAdjacentHTML('beforeend',`<p class="example"><button class="speak" data-say="${it.exId}" aria-label="استمع">${I.speak}</button>${it.ex}</p>`);
     const line=el('p','slotline',`<span class="frag">${it.pre}</span><span class="slot-in" aria-label="فراغ"></span><span class="frag">${it.post}</span>`);
     card.append(line);
@@ -1216,9 +1452,10 @@ function gOrder(c){
 
 /* ================= overlays ================= */
 const ov=$('#overlay');
-function openOv(html){ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;ov.hidden=false}
+// win windows (modal) close only from their own buttons, so a quick extra tap cannot dismiss them
+function openOv(html,modal){ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;ov.hidden=false;ov.dataset.modal=modal?1:''}
 function closeOv(){ov.hidden=true;ov.innerHTML='';ov.onclose&&ov.onclose();ov.onclose=null}
-ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('[data-close]'))closeOv()});
+ov.addEventListener('click',e=>{if((e.target===ov&&!ov.dataset.modal)||e.target.closest('[data-close]'))closeOv()});
 function confetti(){if(P.still)return;const cols=['#e2367a','#f7b731','#2f9e62','#3f9fde','#fff'];
   for(let i=0;i<46;i++){const p=el('div','confetti');p.style.left=Math.random()*100+'vw';p.style.background=cols[i%cols.length];document.body.append(p);
     p.animate([{transform:'translateY(0) rotate(0)'},{transform:`translate(${(Math.random()-.5)*160}px,${innerHeight+60}px) rotate(${Math.random()*720}deg)`}],{duration:1600+Math.random()*1400,delay:Math.random()*300,easing:'cubic-bezier(.2,.6,.4,1)'}).onfinish=()=>p.remove()}}
